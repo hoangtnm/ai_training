@@ -1,2 +1,12 @@
-# ai_training
-Labs for AI Training
+# Training Hub
+
+## Syllabus
+
+- Mathematics knowledge
+- Python programming
+
+## Installation guide
+
+```sh
+bash install.sh
+```
