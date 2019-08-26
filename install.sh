@@ -9,7 +9,7 @@ export ANACONDA_VERSION = 2019.07
 wget https://repo.anaconda.com/archive/Anaconda3-$ANACONDA_VERSION-Linux-x86_64.sh && \
 chmod +x Anaconda3-$ANACONDA_VERSION-Linux-x86_64.sh && \
 echo "The installer prompts “Do you wish the installer to initialize Anaconda3 by running conda init?” We recommend “yes”." && \
-sh Anaconda3-$ANACONDA_VERSION-Linux-x86_64.sh && \
+bash Anaconda3-$ANACONDA_VERSION-Linux-x86_64.sh && \
 source ~/.bashrc
 
 echo "\nInstalling necessary packages"
