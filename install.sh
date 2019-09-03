@@ -12,6 +12,8 @@ echo "The installer prompts “Do you wish the installer to initialize Anaconda3
 bash Anaconda3-$ANACONDA_VERSION-Linux-x86_64.sh && \
 source ~/.bashrc
 
-echo "\nInstalling necessary packages"
-conda install --file requirements.txt
-conda install pytorch torchvision cudatoolkit=10.0 -c pytorch
+# echo "\nInstalling necessary packages\n"
+# conda install --file requirements.txt
+
+echo "\nInstalling LaTeX and TeXstudio"
+sudo apt install texlive-full texstudio

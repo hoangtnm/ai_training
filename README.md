@@ -2,10 +2,12 @@
 
 ## Prerequisites
 
-- IDE: [PyCharm](https://www.jetbrains.com/pycharm/) or [Visual Studio Code](https://code.visualstudio.com/)
 - Programming language: [Python 3.7+](https://repo.anaconda.com/archive/Anaconda3-2019.07-Linux-x86_64.sh)
+- IDE: [PyCharm](https://www.jetbrains.com/pycharm/) or [Visual Studio Code](https://code.visualstudio.com/)
+  - Plugins: [Kite](https://kite.com/), [Python](https://marketplace.visualstudio.com/items?itemName=ms-python.python) (only for VSCode)
 - Libraries & Frameworks: [Numpy](https://www.numpy.org/), [PyTorch](https://pytorch.org/), [OpenCV](https://opencv.org/), [TensorFlow](https://www.tensorflow.org/)
 - Document: [LaTeX](https://www.latex-project.org/) (Highly recommended)
+  - Tutorials: [Learn LaTeX in 30 minutes](https://www.overleaf.com/learn)
 - Hardware: [NVIDIA GTX 1070+](https://www.nvidia.com/en-in/geforce/products/10series/geforce-gtx-1070/) (Optional)
 
 ## Syllabus
@@ -44,5 +46,21 @@
 ## Installation guide
 
 ```sh
+# Designed for Ubuntu
 bash install.sh
+
+# For Ubuntu PC with NVIDIA GPU
+conda install pytorch torchvision cudatoolkit=10.0 -c pytorch
+conda install tensorflow-gpu
+
+# For Ubuntu PC without NVIDIA GPU
+conda install pytorch torchvision cpuonly -c pytorch
+conda install tensorflow
 ```
+
+**Installation For MacOS**:
+
+- [Anaconda](https://www.anaconda.com/distribution/)
+- [MacTeX 2019](http://www.tug.org/mactex/mactex-download.html)
+- [TeXstudio](https://www.texstudio.org/)
+- [PyTorch](https://pytorch.org/get-started/locally/): `conda install pytorch torchvision -c pytorch`
