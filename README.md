@@ -47,7 +47,7 @@
 
 ```sh
 # Designed for Ubuntu
-bash install.sh
+bash ./install.sh
 
 # For Ubuntu PC with NVIDIA GPU
 conda install pytorch torchvision cudatoolkit=10.0 -c pytorch
