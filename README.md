@@ -8,6 +8,7 @@
 - Libraries & Frameworks: [Numpy](https://www.numpy.org/), [PyTorch](https://pytorch.org/), [OpenCV](https://opencv.org/), [TensorFlow](https://www.tensorflow.org/)
 - Document: [LaTeX](https://www.latex-project.org/) (Highly recommended)
   - Tutorials: [Learn LaTeX in 30 minutes](https://www.overleaf.com/learn)
+  - <a href='documents/example'>Template</a>
 - Hardware: [NVIDIA GTX 1070+](https://www.nvidia.com/en-in/geforce/products/10series/geforce-gtx-1070/) (Optional)
 
 ## Syllabus
