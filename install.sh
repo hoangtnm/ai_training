@@ -5,7 +5,7 @@ sudo apt update && sudo apt install -y \
     libxcursor1 libxcomposite1 libasound2 libxi6 libxtst6
 
 echo "\nInstalling Anaconda3\n"
-export ANACONDA_VERSION = 2019.07
+export ANACONDA_VERSION=2019.07
 wget https://repo.anaconda.com/archive/Anaconda3-$ANACONDA_VERSION-Linux-x86_64.sh && \
 chmod +x Anaconda3-$ANACONDA_VERSION-Linux-x86_64.sh && \
 echo "The installer prompts “Do you wish the installer to initialize Anaconda3 by running conda init?” We recommend “yes”." && \
