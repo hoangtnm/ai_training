@@ -4,7 +4,7 @@
 
 - Programming language: [Python 3.7+](https://repo.anaconda.com/archive/Anaconda3-2019.07-Linux-x86_64.sh)
 - IDE: [PyCharm](https://www.jetbrains.com/pycharm/) or [Visual Studio Code](https://code.visualstudio.com/)
-  - Plugins: [Kite](https://kite.com/), [Python](https://marketplace.visualstudio.com/items?itemName=ms-python.python) (only for VSCode)
+  - Plugins: [Kite](https://kite.com/), [Python](https://marketplace.visualstudio.com/items?itemName=ms-python.python) (only for VS Code)
 - Libraries & Frameworks: [Numpy](https://www.numpy.org/), [PyTorch](https://pytorch.org/), [OpenCV](https://opencv.org/), [TensorFlow](https://www.tensorflow.org/)
 - Document: [LaTeX](https://www.latex-project.org/) (Highly recommended)
   - Tutorials: [Learn LaTeX in 30 minutes](https://www.overleaf.com/learn)
