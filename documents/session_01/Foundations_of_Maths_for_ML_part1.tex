@@ -69,7 +69,7 @@ And the \textbf{As} and the \textbf{Bs} here,
 are the price of a \textbf{single apple} and a \textbf{single banana}.
 And what I'm going to have to do is \textbf{solve} these what we call \textbf{\textit{simultaneous equations}} in order to discover the price of individual apples and bananas.
 
-Now in the general case of lots of different types of items and lots of shopping trips, then finding out the prices might be quite hard. It might be quite \textit{difficult} to \textit{solve} all these equations \textit{by hand}. So, we might want a \textit{computer algorithm} to do it for us, in the general case. Now, this is an example of a \textit{Linear Algebra} problem.
+Now in the general case of lots of different types of items and lots of shopping trips, then finding out the prices might be quite hard. It might be quite \textit{difficult} to \textit{solve} all these equations \textit{by hand}. So, we might want a computer algorithm to do it for us, in the general case. Now, this is an example of a Linear Algebra problem.
 
 \begin{equation} \label{eq2}
 	\begin{bmatrix}
@@ -112,7 +112,7 @@ Throughout this section, we are aiming to get you up and running with the basic 
 import torch
 \end{minted}
 
-Tensors represent (possibly multi-dimensional) arrays of numerical values. Tensors with one axis cor-respond (in math-speak) to \textit{vectors}. Tensors with two axes correspond to \textit{matrices}. For arrays with more than two axes, mathematicians do not have special names—they simply call them \textit{tensors}.
+Tensors represent (possibly multi-dimensional) arrays of numerical values. Tensors with one axis correspond (in math-speak) to \textit{vectors}. Tensors with two axes correspond to \textit{matrices}. For arrays with more than two axes, mathematicians do not have special names—they simply call them \textit{tensors}.
 
 The simplest object we can create is a vector. To start, we can use \textbf{arange} to create a row vector with 12 consecutive integers.
 
@@ -148,7 +148,7 @@ tensor([[ 0,  1,  2,  3],
 	[ 8,  9, 10, 11]])
 \end{minted}
 
-Reshaping by manually specifying each of the dimensions can get annoying.  Once we know one of the dimensions, why should we have to perform the division our selves to determine the other? For example,above, to get a matrix with 3 rows, we had to specify that it should have 4 columns (to account for the12 elements). Fortunately, Tensor can automatically work out one dimension given the other. We can invoke this capability by placing-1for the dimension that we would like Tensor to automatically infer. In our case, instead of \textbf{x.view((3, 4))}, we could have equivalently used \textbf{x.view((-1, 4))} or \textbf{x.view((3, -1))}.
+Reshaping by manually specifying each of the dimensions can get annoying.  Once we know one of the dimensions, why should we have to perform the division our selves to determine the other? For example,above, to get a matrix with 3 rows, we had to specify that it should have 4 columns (to account for the12 elements). Fortunately, Tensor can automatically work out one dimension given the other. We can invoke this capability by placing $ -1 $ for the dimension that we would like Tensor to automatically infer. In our case, instead of \textbf{x.view(3, 4)}, we could have equivalently used \textbf{x.view(-1, 4)} or \textbf{x.view(3, -1)}.
 
 To create a Tensor representing a tensor with all elements set to 0 and a shape of (2, 3, 4) we can invoke:
 
@@ -185,9 +185,9 @@ tensor([[[1., 1., 1., 1.],
 We can also specify the value of each element in the desired Tensor by supplying a Python list containing the numerical values.
 
 \begin{minted}[frame=single]{python}
-x = torch.tensor([[2,1,4,3],
-	          [1,2,3,4],
-	          [4,3,2,1]])
+x = torch.tensor([[2, 1, 4, 3],
+	          [1, 2, 3, 4],
+	          [4, 3, 2, 1]])
 x
 \end{minted}
 
@@ -296,8 +296,8 @@ x.norm().item()
 In the above section, we saw how to perform operations on two Tensors of the same shape. When their shapes differ, a broadcasting mechanism may be triggered analogous to NumPy: first, copy the elements appropriately so that the two Tensors have the same shape, and then carry out operations by element.
 
 \begin{minted}[frame=single]{python}
-a = torch.arange(3).view((3,1))
-b = torch.arange(2).view((1,2))
+a = torch.arange(3).view(3,1)
+b = torch.arange(2).view(1,2)
 a, b
 \end{minted}
 
@@ -361,7 +361,7 @@ tensor([[12., 12., 12., 12.],
 
 \subsection{Mutual Transformation of NDArray and NumPy}
 
-Converting PyTorch Tensors to and from NumPy is easy. The converted arrays do \textit{not share} memory. This minor inconvenience is actually quite important: when you perform operations on the CPU or one of the GPUs, you do not want PyTorch having to wait whether NumPy might want to be doing something else with the same chunk of memory. The \textit{from\textunderscore numpy} and \textit{numpy} functions do the trick.
+Converting PyTorch Tensors to and from NumPy is easy. The converted arrays do not \textit{share} memory. This minor inconvenience is actually quite important: when you perform operations on the CPU or one of the GPUs, you do not want PyTorch having to wait whether NumPy might want to be doing something else with the same chunk of memory. The \textit{from\textunderscore numpy} and \textit{numpy} functions do the trick.
 
 \begin{minted}[frame=single]{python}
 import torch
