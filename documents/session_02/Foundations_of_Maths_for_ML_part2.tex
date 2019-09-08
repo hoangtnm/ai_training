@@ -1,0 +1,82 @@
+\documentclass[]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\usepackage{graphicx}
+\usepackage{minted}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[
+backend=biber,
+style=alphabetic,
+sorting=ynt
+]{biblatex}
+\addbibresource{references.bib} 
+\graphicspath{ {images/} }
+
+%opening
+\title{Foundations of Math for ML, part 2}
+\author{Hoang Nhat Minh Tran \thanks{Green Global Information Technology JSC}}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+% The introduction
+\begin{abstract}
+Machine learning is a set of powerful mathematical tools that enable us, to represent, interpret, and control the complex world around us.
+However, even just the word mathematics makes some people feel uneasy and unwelcome to explore the topic.
+The purpose of this session is to take you on a tour through the basic maths underlying these methods, focusing in particular on building your intuition rather than worrying too much about the details.
+Thanks to the amazing machine learning community, it's actually possible to apply many powerful machine learning methods without understanding very much about the underpinning mathematics, by using open source libraries.
+This is great, but problems can arise and without some sense of the language and meaning of the relevant maths, you can struggle to work out what's gone wrong or how to fix it.
+The ideal outcome of this session is that it will give you the confidence and motivation to immediately dive into one of the hundreds of boolean applied machine learning courses already available online, and not be intimidated by the matrix notation or the calculus.
+\end{abstract}
+
+\section{Linear Algebra}
+
+Now that you can store and manipulate data, let’s briefly review the subset of basic linear algebra that you will need to understand most of the models. We will introduce all the basic concepts, the corresponding mathematical notation, and their realization in code all in one place. If you are already confident in your basic linear algebra, feel free to skim through or skip this chapter.
+
+\begin{minted}[frame=single]{python}
+import torch
+\end{minted}
+
+\subsection{Scalars}
+
+\subsection{Vectors}
+
+\subsection{Length, dimensionality and shape}
+
+\subsection{Matrices}
+
+\subsection{Tensors}
+
+\subsection{Basic properties of tensor arithmetic}
+
+\subsection{Sums and means}
+
+\subsection{Dot products}
+
+\subsection{Matrix-vector products}
+
+\subsection{Matrix-matrix multiplication}
+
+\subsection{Norms}
+
+\subsection{Norms and objectives}
+
+\subsection{Intermediate linear algebra}
+
+\subsection{Summary}
+
+In just a few pages (or one Jupyter notebook) we have taught you all the linear algebra you will need to understand a good chunk of neural networks. Of course there is a lot more to linear algebra. And a \textins{lot} of that math \textit{is} useful for machine learning. For example, matrices can be decomposed into factors, and these decompositions can reveal low-dimensional structure in real-world datasets. There are entire sub fields of machine learning that focus on using matrix decompositions and their generalizations to high-order tensors to discover structure in datasets and solve prediction problems. But this book focuses on deep learning.And we believe you will be much more inclined to learn more mathematics once you have gotten your hands dirty deploying useful machine learning models on real datasets. So while we reserve the right to introduce more math much later on, we will wrap up this chapter here.
+
+\section{Recap}
+
+% You just trained your first machine learning model. We saw that by training the model with input data and the corresponding output, the model learned to multiply the input by 1.8 and then add 32 to get the correct result.
+
+\nocite{*}
+
+\printbibliography
+
+\end{document}
