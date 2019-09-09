@@ -32,15 +32,12 @@ The purpose of this session is to take you on a tour through the basic maths und
 Thanks to the amazing machine learning community, it's actually possible to apply many powerful machine learning methods without understanding very much about the underpinning mathematics, by using open source libraries.
 This is great, but problems can arise and without some sense of the language and meaning of the relevant maths, you can struggle to work out what's gone wrong or how to fix it.
 The ideal outcome of this session is that it will give you the confidence and motivation to immediately dive into one of the hundreds of boolean applied machine learning courses already available online, and not be intimidated by the matrix notation or the calculus.
-\end{abstract}
-
-% The first section's topic
-% Every section is a main idea for what you have learnt
-\section{Introduction to Linear Algebra and to Mathematics for Machine Learning}
 
 In this first module we look at how linear algebra is relevant to machine learning and data science. Then we'll wind up the module with an initial introduction to vectors. Throughout, we're focusing on developing your mathematical intuition, not of crunching through algebra or doing long pen-and-paper examples. For many of these operations, there are callable functions in Python that can do the adding up - the point is to appreciate what they do and how they work so that, when things go wrong or there are special cases, you can understand why and what to do.
 
-\subsection{Learning Objectives}
+\end{abstract}
+
+\section{Learning Objectives}
 
 \begin{itemize}
 	\item Recall how machine learning and vectors and matrices are related
@@ -50,9 +47,9 @@ In this first module we look at how linear algebra is relevant to machine learni
 	\item Understand how to add vectors and multiply by a scalar number
 \end{itemize}
 
-\subsection{The relationship between machine learning, linear algebra, and vectors and matrices}
+\section{The relationship between machine learning, linear algebra, and vectors and matrices}
 
-\subsubsection{Motivations for linear algebra}
+\subsection{Motivations for linear algebra}
 
 We're going to look a bit more at the types of problems we might want to solve, and expose what Linear Algebra is and how it might help us to solve them.
 The first problem I might think of is one of price discovery.
@@ -93,13 +90,251 @@ I have some \textbf{constant} \textit{linear coefficients} here, these numbers \
 
 Looking at these different types of mathematical objects, and understanding what they are and how to work with them, these \textit{vectors} and \textit{matrices}. In fact, with neural networks and machine learning, we want the computer in effect \textbf{\textit{not only}} to fit the equation, \textbf{\textit{but also}} to figure out what equation to use. That's a highly inexact description really of what's going on, but it gives the right sort of flavor.
 
-\subsubsection{Getting a handle on vectors}
+\subsection{Exploring parameter space}
 
-\subsubsection{Exploring parameter space}
+In this exercise, we shall see how it is often convenient to use vectors in machine learning. These could be in the form of data itself, or model parameters, and so on.
 
-\subsubsection{Solving some simultaneous equations}
+\subsubsection{Quiz 1}.
 
-\subsection{Operations with vectors}
+The problem we shall focus on in this exercise is the distribution of heights in a population. If we do a survey of the heights of people in a population, we may get a distribution like this:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{height_dist}
+	\caption{The distribution of heights}
+	\label{fig:height_dist}
+\end{figure}
+
+This \textit{histogram} \ref{fig:height_dist} indicates how likely it is for anyone in the survey to be in a particular height range. (6 ft is around 183 cm).
+
+This histogram can also be represented by a vector, i.e. a list of numbers. In this case, we record the frequency of people with heights in little groups at 2.5 cm intervals, i.e. between 150 cm and 152.5 cm, between 152.5 cm and 155 cm, and so on. We can define this as the vector $ f $ with components,
+\begin{equation} \label{f_vector}
+	f =
+	\begin{bmatrix}
+		f_{150.0, 152.5} \\
+		f_{152.5, 155.0} \\
+		f_{155.0, 157.5} \\
+		f_{157.5, 160.0} \\
+		\vdots
+	\end{bmatrix}
+\end{equation}
+
+These vector components are the sizes of each bar in the histogram. Of the following statements, select all that you think are true.
+
+\begin{itemize}
+	\item[$\square$] If another sample was taken under the same conditions, the frequencies would be exactly the same.
+	\item[$\square$] If another sample was taken under the same conditions, the frequencies should be broadly similar.
+	\item[$\square$] There are at least 10 elements in the frequency vector, f.
+	\item[$\square$] None of the other statements.
+	\item[$\square$] No one in the world is less than 160 cm tall. 
+\end{itemize}
+
+\subsubsection{Quiz 2}.
+
+One of the tasks of machine learning is to fit a model to data in order to represent the underlying distribution.
+
+For the heights of a population, a model we may use to predict frequencies is the Normal (or Gaussian) distribution. This is a model for a bell-shaped curve, which looks like this,
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{underlying_dist}
+	\caption{The underlying distribution}
+	\label{fig:underlying_dist}
+\end{figure}
+
+It has the slightly complicated equation,
+
+\begin{equation}
+	g(x) = \frac{1}{\sigma\sqrt{2\pi}}\exp\left(-\frac{(x-
+		\mu)^2}{2\sigma^2}\right)
+\end{equation}
+the exact form of which is unimportant, except that it is dependent on two parameters, the $ mean $, $ \mu $, where the curve is centered, and the \textit{standard deviation}, $ \sigma $, which is the characteristic width of the bell curve (measured from the mean).
+
+We can put these two parameters in a vector, $ p = \begin{bmatrix}
+\mu \\
+\sigma
+\end{bmatrix} $
+
+Pick the parameter vector $ p $ which best describes the distribution pictured.
+
+\begin{itemize}
+	\item[$\square$] $ p = \begin{bmatrix}
+		167 \\
+		24
+		\end{bmatrix} $
+	\item[$\square$] $ p = \begin{bmatrix}
+		155 \\
+		12
+		\end{bmatrix} $
+	\item[$\square$] $ p = \begin{bmatrix}
+		143 \\
+		167
+		\end{bmatrix} $
+	\item[$\square$] $ p = \begin{bmatrix}
+		155 \\
+		3
+		\end{bmatrix} $
+	\item[$\square$] $ p = \begin{bmatrix}
+		167 \\
+		2
+		\end{bmatrix} $
+\end{itemize}
+
+\subsubsection{Quiz 3}.
+
+Pick the Normal distribution that corresponds the closest to the parameter vector $ p= \begin{bmatrix}
+3 \\
+3
+\end{bmatrix} $
+
+\begin{itemize}
+	\item[$\square$] \includegraphics[width=0.5\textwidth]{quiz3_a}
+	\item[$\square$] \includegraphics[width=0.5\textwidth]{quiz3_b}
+	\item[$\square$] \includegraphics[width=0.5\textwidth]{quiz3_c}
+	\item[$\square$] \includegraphics[width=0.5\textwidth]{quiz3_d}
+\end{itemize}
+
+\textbf{Quiz 4}. A model allows us to predict the data in a distribution. In our example we can start with a parameter vector $ p $ and convert it to a vector of expected frequencies $ g_p $, for example, $ g_p =
+\begin{bmatrix}
+	f_{150.0, 152.5} \\
+	f_{152.5, 155.0} \\
+	f_{155.0, 157.5} \\
+	f_{157.5, 160.0} \\
+	\vdots
+\end{bmatrix} $
+
+A model is only considered good if it fits the measured data well. Some specific values for the parameters will be better than others for a model. We need a way fit a model's parameters to data and quantify how good that fit is.
+
+One way of doing so is to calculate the "residuals", which is the difference between the measured data and the modeled prediction for each histogram bin.
+
+This is illustrated below. The model is shown in pink, the measured data is shown in orange and where they overlap is shown in green. The height of the pink and orange bars are the residuals.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{residuals}
+	\caption{The model and the measured data}
+	\label{fig:residuals}
+\end{figure}
+
+A better fit would have as much overlap as it can, reducing the residuals as much as possible. How could the model be improved to give the best fit to the data?
+
+\begin{itemize}
+	\item[$\square$] Increase the standard deviation, $ \sigma $.
+	\item[$\square$] Keep the standard deviation, $ \sigma $, approximately the same.
+	\item[$\square$] Decrease the mean, $ \mu $.
+	\item[$\square$] Increase the mean, $ \mu $.
+	\item[$\square$] Decrease the standard deviation, $ \sigma $.
+	\item[$\square$] Keep the mean, $ \mu $, approximately the same.
+\end{itemize}
+
+\subsubsection{Quiz 5}.
+
+The performance of a model can be quantified in a single number. One measure we can use is the \textit{Sum of Squared Residuals}, SSR. Here we take all of the residuals (the difference between the measured and predicted data), square them and add them together.
+
+In the language of vectors we can write this as, $ SSR(p)=|f-g_p|^2 $ , which will be explained further on in this course.
+
+Since each parameter vector $ p $ represents a different bell curve, each with its own value for the sum of squared residuals, $ SSR $, we can draw the surface of $ SSR $ values over the space spanned by p, such as $ \mu $ and $ \sigma $ in this example.
+
+Here is an illustration of this surface for our data.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{quiz5_a}
+	\caption{The surface of data}
+	\label{fig:quiz5_a}
+\end{figure}
+
+Every point on this surface represents the $ SSR $ of a choice of parameters, with some bell curves performing better at representing the data than others.
+
+We can take a ‘top-down’ view of the surface, and view it as a contour map, where each of the contours (in green here) represent a constant value for the $ SSR $.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{quiz5_b}
+	\caption{The surface of data in top-down}
+	\label{fig:quiz5_b}
+\end{figure}
+
+The goal in machine learning is to find the parameter set where the model fits the data as well as it possibly can. This translates into finding the lowest point, the global minimum, in this space.
+
+Select all true statements below.
+
+\begin{itemize}
+	\item[$\square$] At the minimum of the surface, the model exactly matches the measured data.
+	\item[$\square$] None of the other statements.
+	\item[$\square$] You get the same model by following along a contour line.
+	\item[$\square$] Moving at right angles to contour lines in the parameter space will have the greatest effect on the fit than moving in other directions.
+	\item[$\square$] Each point on the surface represents a set of parameters $ p = \begin{bmatrix}
+		\mu \\
+		\sigma
+	\end{bmatrix}$.
+\end{itemize}
+
+\subsection{Solving some simultaneous equations}
+
+\subsubsection{Quiz 1}.
+
+In this quiz you'll be reminded of how to solve linear simultaneous equations as a way to practice some basic linear algebra. Some of the ideas presented here will be relevant later in the course.
+
+Solving simultaneous equations is the process of finding the values of the variables (here $ x $ and $ y $) that satisfy the system of equations. Let's start with the simplest type of simultaneous equation, where we already know all but one of the variables:
+
+\begin{equation} \label{}
+\begin{split}
+	3x - y = 2 \\
+	x = 4
+\end{split}
+\end{equation}
+
+Substitute the value of xxx into the first equation to find yyy, then select the correct values of $ x $ and $ y $ below.
+
+\begin{itemize}
+	\item[$\square$] $ x = 4, y = 14 $
+	\item[$\square$] $ x = 4, y = 2 $
+	\item[$\square$] $ x = 4, y = -10 $
+	\item[$\square$] $ x = 4, y = 10 $
+\end{itemize}
+
+\subsubsection{Quiz 2}.
+
+The first goal when solving simple simultaneous equations should be to isolate one of the variables. For example, try taking the second equation away from the first to solve the following pair of equations:
+
+\begin{equation} \label{}
+\begin{split}
+3x - 2y = 7 \\
+2x - 2y = 2
+\end{split}
+\end{equation}
+
+What value did you find for $ x $? Now substitute $ x $ into one of the equations to find $ y $, and select the correct pair below:
+
+\begin{itemize}
+	\item[$\square$] $ x = 1, y = -4 $
+	\item[$\square$] $ x = 3, y = 1 $
+	\item[$\square$] $ x = 7, y = 7 $
+	\item[$\square$] $ x = 5, y = 4 $
+\end{itemize}
+
+\subsubsection{Quiz 3}.
+
+This method is called \textit{elimination}, and you can use it even when the coefficients, the numbers in front of $ x $ and $ y $, aren't the same.
+
+\begin{equation} \label{}
+\begin{split}
+3x - 2y = 4 \\
+6x + 3y = 15
+\end{split}
+\end{equation}
+
+Select the correct values of $ x $ and $ y $ below:
+
+\begin{itemize}
+	\item[$\square$] $ x = 4, y = -2 $
+	\item[$\square$] $ x = 3, y = 1 $
+	\item[$\square$] $ x = 2, y = 1 $
+	\item[$\square$] $ x = 1, y = 2 $
+\end{itemize}
+
+% \subsection{Operations with vectors}
 
 \section{Data Manipulation}
 
@@ -360,7 +595,7 @@ tensor([[12., 12., 12., 12.],
 	[ 8.,  9., 10., 11.]])
 \end{minted}
 
-\subsection{Mutual Transformation of NDArray and NumPy}
+\subsection{Mutual Transformation of Tensor and NumPy}
 
 Converting PyTorch Tensors to and from NumPy is easy. The converted arrays do not \textit{share} memory. This minor inconvenience is actually quite important: when you perform operations on the CPU or one of the GPUs, you do not want PyTorch having to wait whether NumPy might want to be doing something else with the same chunk of memory. The \textit{from\textunderscore numpy} and \textit{numpy} functions do the trick.
 
