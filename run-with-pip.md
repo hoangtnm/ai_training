@@ -1,4 +1,6 @@
-### Run demo with pip instead of anaconda
+### Run demo with pip
+
+If you want to setup with pip instead of Anaconda
 
 
 ```bash
