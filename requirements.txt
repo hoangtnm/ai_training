@@ -1,1 +1,6 @@
-tensorflow-gpu
+jupyter>=1.0.0
+matplotlib>=3.1.1
+# tensorflow>=1.14.0
+tensorflow-gpu>=1.14.0
+torch>=1.2.0
+torchvision>=0.4.0
