@@ -98,25 +98,164 @@ tensor(3)
 
 \subsection{Length, dimensionality and shape}
 
+Let’s revisit some concepts from the previous section. A vector is just an array of numbers. And just as every array has a length, so does every vector. In math notation, if we want to say that a vector $ x $ consists of $ n $ real-valued scalars, we can express this as $ x \in \mathbb{R}^n $.  The length of a vector is commonly called its \textit{dimension}. As with an ordinary Python array, we can access the length of an Tensor by calling Python’s in-built len()function.
+
+We can also access a vector’s length via its .size method. The shape is a tuple that lists the dimensionalityof the NDArray along each of its axes. Because a vector can only be indexed along one axis, its shape hasjust one element.
+
+\begin{minted}[frame=single]{python}
+x.size()
+\end{minted}
+
+\begin{minted}[frame=single]{python}
+torch.Size([4])
+\end{minted}
+
 \subsection{Matrices}
+
+Just as vectors generalize scalars from order 0 to order 1, matrices generalize vectors from 1D to 2D. Matrices, which we’ll typically denote with capital letters (A,B,C), are represented in code as arrays with2 axes. Visually, we can draw a matrix as a table, where each entry $ a_ij $ belongs to the $ i $-th row and $ j $-th column.
+
+\begin{equation} \label{}
+A = \\
+\begin{bmatrix}
+a_{11} & a_{12} & \cdots & a_{1m} \\
+a_{21} & a_{22} & \cdots & a_{2m} \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{n1} & a_{n2} & \cdots & a_{nm}
+\end{bmatrix}
+\end{equation}
+
+We can create a matrix with $ n $ rows and $ m $ columns in PyTorch by specifying a shape with two components $ (n,m) $ when calling any of our favorite functions for instantiating an tensor such as ones, or zeros.
+
+\begin{minted}[frame=single]{python}
+A = torch.arange(20).view(5,4)
+print(A)
+\end{minted}
+
+\begin{minted}[frame=single]{python}
+tensor([[ 0,  1,  2,  3],
+	[ 4,  5,  6,  7],
+	[ 8,  9, 10, 11],
+	[12, 13, 14, 15],
+	[16, 17, 18, 19]])
+\end{minted}
+
+Matrices are useful data structures: they allow us to organize data that has different modalities of variation. For example, rows in our matrix might correspond to different patients, while columns might correspond to different attributes.
+
+We can access the scalar elements $ a_{ij} $ of a matrix $ A $ by specifying the indices for the row ($ i $) and column ($ j $) respectively. Leaving them blank via a : takes all elements along the respective dimension (as seen in the previous section).
+
+We can transpose the matrix through T. That is, if $ B = A^T $, then $ b_{ij} = a_{ji} $ for any $ i $ and $ j $.
+
+\begin{minted}[frame=single]{python}
+print(A.T)
+\end{minted}
+
+\begin{minted}[frame=single]{python}
+tensor([[ 0,  4,  8, 12, 16],
+	[ 1,  5,  9, 13, 17],
+	[ 2,  6, 10, 14, 18],
+	[ 3,  7, 11, 15, 19]])
+\end{minted}
 
 \subsection{Tensors}
 
-\subsection{Basic properties of tensor arithmetic}
+Just as vectors generalize scalars, and matrices generalize vectors, we can actually build data structures with even more axes. Tensors give us a generic way of discussing arrays with an arbitrary number of axes. Vectors, for example, are first-order tensors, and matrices are second-order tensors.
+
+Using tensors will become more important when we start working with images, which arrive as 3D data structures, with axes corresponding to the height, width, and the three (RGB) color channels. But in this document, we’re going to skip this part and make sure you know the basics.
+
+\begin{minted}[frame=single]{python}
+X = torch.arange(24).view(2,3,4)
+print(f'X.shape = {X.size()}')
+print(f'X = {X}')
+\end{minted}
+
+\begin{minted}[frame=single]{python}
+X.shape = torch.Size([2, 3, 4])
+X = tensor([[[ 0,  1,  2,  3],
+	     [ 4,  5,  6,  7],
+	     [ 8,  9, 10, 11]],
+	
+	    [[12, 13, 14, 15],
+	     [16, 17, 18, 19],
+	     [20, 21, 22, 23]]])
+\end{minted}
 
 \subsection{Sums and means}
 
+The next more sophisticated thing we can do with arbitrary tensors is to calculate the sum of their elements. In mathematical notation, we express sums using the $ \Sigma $ symbol. To express the sum of the elements in a vector \textbf{u} of length \textit{d}, we can write $ \sum_{i=1}^{d} u_i $. In code, we can just call torch.sum().
+
+\begin{minted}[frame=single]{python}
+x = torch.ones(3)
+print(x)
+print(torch.sum(x))
+\end{minted}
+
+\begin{minted}[frame=single]{python}
+tensor([1., 1., 1.])
+tensor(3.)
+\end{minted}
+
+A related quantity is the mean, which is also called the \textit{average}. We calculate the mean by dividing the sum by the total number of elements. With mathematical notation, we could write the average over a vector \textbf{u} as $  \frac{1}{d} \sum_{i=1}^{d} u_i $ and the average over a matrix A as $ \frac{1}{n \times m} \sum_{i=1}^{m} \sum_{j=1}^{1} a_{ij} $. In code, we could just call torch.mean() on tensors of arbitrary shape:
+
+\begin{minted}[frame=single]{python}
+A = torch.arange(20, dtype=torch.float32).view(5,4)
+print(torch.mean(A))
+\end{minted}
+
+\begin{minted}[frame=single]{python}
+tensor(9.5000)
+\end{minted}
+
 \subsection{Dot products}
 
-\subsection{Matrix-vector products}
+So far, we have only performed element-wise operations, sums and averages. And if this was all we could do, linear algebra probably would not deserve its own document.  However, one of the most fundamental operations is the dot product. Given two vectors \textbf{u} and \textbf{v}, the dot product $ u^T v $ is a sum over the products of the corresponding elements: $ u^T v = \sum_{i=1}^{d} u_i . v_i $.
 
-\subsection{Matrix-matrix multiplication}
+\begin{minted}[frame=single]{python}
+x = torch.arange(4, dtype=torch.float32)
+y = torch.ones(4, dtype=torch.float32)
+print(x, y, torch.matmul(x, y))
+\end{minted}
 
-\subsection{Norms}
+\begin{minted}[frame=single]{python}
+tensor([0., 1., 2., 3.]) tensor([1., 1., 1., 1.]) tensor(6.)
+\end{minted}
+
+Note that we can express the dot product of two vectors \textit{torch.matmul(x, y)} equivalently by performing an element-wise multiplication and then a sum:
+
+\begin{minted}[frame=single]{python}
+torch.sum(x*y)
+\end{minted}
+
+\begin{minted}[frame=single]{python}
+tensor(6.)
+\end{minted}
+
+% \subsection{Matrix-vector products}
+
+% \subsection{Matrix-matrix multiplication}
+
+% \subsection{Norms}
 
 \subsection{Norms and objectives}
 
+While we do not want to get too far ahead of ourselves, we do want you to anticipate why these concepts are useful. In machine learning we are often trying to solve optimization problems: \textit{Maximize} the probability assigned to observed data. \textit{Minimize} the distance between predictions and the ground-truth observations.Assign vector representations to items (like words, products, or news articles) such that the distance between similar items is minimized, and the distance between dissimilar items is maximized.  Oftentimes, these objectives, perhaps the most important component of a machine learning algorithm (besides the data itself),are expressed as norm
+
 \subsection{Intermediate linear algebra}
+
+If you have made it this far, and understand everything that we have covered, then honestly, you \textit{are} ready to begin modeling. If you are feeling antsy, this is a perfectly reasonable place to move on. You already know nearly all of the linear algebra required to implement a number of many practically useful models andyou can always circle back when you want to learn more.
+
+But there is a lot more to linear algebra, even as concerns machine learning. At some point, if you plan to make a career in machine learning, you will need to know more than what we have covered so far. In the rest of this document, we introduce some useful, more advanced concepts.
+
+\subsubsection{Basic vector properties}
+
+Vectors are useful beyond being data structures to carry numbers. In addition to reading and writing values to the components of a vector, and performing some useful mathematical operations, we can analyze vectors in some interesting ways.
+
+One important concept is the notion of a vector space. Here are the conditions that make a vector space:
+
+\begin{itemize}
+	\item \textbf{Additive axioms} (we assume that x, y, z are all vectors): $ x+y=y+x $ and $ (x + y) + z = x + (y+z) $ and $ 0 +x=x+ 0 =x $ and $ (-x) + x = x + (-x) =0 $.
+	\item \textbf{Multiplicative axioms} (we assume that x is a vector and a, b are scalars): $ 0.x= 0 $ and $ 1.x=x $ and $ (ab)x=a(bx) $.
+	\item \textbf{Distributive axioms} (we assume that x and y are vectors and a, b are scalars): $ a(x+y) = ax+ay $ and $ (a+b)x = ax + bx $
+\end{itemize}
 
 \subsection{Summary}
 
