@@ -67,7 +67,7 @@ def main(net, feature_size, training_loader, evaluation_loader=None, writer=None
             write_embedding_to_tensorboard(images, labels, feature_size, class_names, writer, epoch)
 
         epoch_loss = running_loss / len(training_loader)
-        epoch_acc = running_corrects / len(training_loader)
+        epoch_acc = running_corrects.double() / len(training_loader)
         print(f'Epoch: {epoch} - loss: {epoch_loss:.4f} - acc: {epoch_acc:.4f}')
 
     return net
