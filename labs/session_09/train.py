@@ -92,7 +92,8 @@ if __name__ == '__main__':
     writer = SummaryWriter(log_path)
 
     train_loader = get_data_loader(dataset_path, batch_size=HyperParams['batch_size'])
-    eval_loader = get_data_loader(dataset_path, batch_size=dataset_size)
+    # eval_loader = get_data_loader(dataset_path, batch_size=dataset_size)
+    eval_loader = None
 
     model = models.resnet18(pretrained=False)
     model = main(model, HyperParams['input_size'], train_loader, eval_loader, writer=writer)
