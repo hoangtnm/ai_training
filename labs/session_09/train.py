@@ -52,7 +52,7 @@ def main(net, feature_size, training_loader, evaluation_loader=None, writer=None
             loss.backward()
             optimizer.step()
 
-            running_loss += loss.item()
+            running_loss += loss.item() * inputs.size(0)
             running_corrects += torch.sum(predictions == labels)
 
             if writer is not None:
@@ -66,8 +66,8 @@ def main(net, feature_size, training_loader, evaluation_loader=None, writer=None
             images, labels = next(iter(evaluation_loader))
             write_embedding_to_tensorboard(images, labels, feature_size, class_names, writer, epoch)
 
-        epoch_loss = running_loss / len(training_loader)
-        epoch_acc = running_corrects.double() / len(training_loader)
+        epoch_loss = running_loss / len(training_loader.dataset)
+        epoch_acc = running_corrects.double() / len(training_loader.dataset)
         print(f'Epoch: {epoch} - loss: {epoch_loss:.4f} - acc: {epoch_acc:.4f}')
 
     return net
