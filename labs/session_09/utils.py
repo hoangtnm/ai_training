@@ -52,6 +52,29 @@ class EmotionDataset(Dataset):
     # TODO: Custom Emotion Dataset
 
 
+def load_checkpoint(model, path, optimizer=None):
+    """Load model checkpoint from path
+
+    Args:
+        model: model instance.
+        path: path to the checkpoint.
+        optimizer: optimizer instance.
+
+    Returns:
+        model: model instance loading checkpoint.
+        optimizer: optimizer instance loading checkpoint.
+        epoch: epoch at which to start training (useful for resuming a previous training run).
+        loss: best loss.
+    """
+    checkpoint = torch.load(path)
+    model.load_state_dict(checkpoint['model_state_dict'])
+    optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+    epoch = checkpoint['epoch']
+    loss = checkpoint['loss']
+
+    return model, optimizer, epoch, loss
+
+
 def get_metadata(path):
     """Returns dataset metadata.
 
@@ -80,7 +103,7 @@ def get_data_loader(path, batch_size=2, num_workers=2):
 
     Args:
         path: path to dataset folder.
-        batch_size: batch_size.
+        batch_size: number of samples per gradient update.
         num_workers: how many sub-processes to use for data loading.
     
     Returns:
