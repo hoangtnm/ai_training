@@ -21,12 +21,12 @@ def write_embedding_to_tensorboard(data, targets, feature_size, class_names, wri
     """Writes embedding to TensorBoard.
 
     Args:
-        data: data points
-        targets: corresponding labels
-        feature_size:
-        class_names (list): list of classes
-        writer: TensorBoard writer
-        global_step (int): global step value to record
+        data: data points.
+        targets: corresponding labels.
+        feature_size: a matrix which each row is the feature vector of the data point.
+        class_names (list): list of classes.
+        writer: TensorBoard writer.
+        global_step (int): global step value to record.
     """
     # select random images and their target indices
     images, labels = select_n_random(data, targets)
@@ -53,12 +53,12 @@ class EmotionDataset(Dataset):
 
 
 def load_checkpoint(model, path, optimizer=None):
-    """Load model checkpoint from path
+    """Load checkpoint from path.
 
     Args:
         model: model instance.
         path: path to the checkpoint.
-        optimizer: optimizer instance.
+        optimizer: optimizer instance (only needed during training).
 
     Returns:
         model: model instance loading checkpoint.
