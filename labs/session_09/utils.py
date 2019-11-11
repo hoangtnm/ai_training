@@ -1,11 +1,13 @@
 import torch
 import numpy as np
+import torch.nn as nn
 import matplotlib.pyplot as plt
 from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
 from torchvision.datasets import ImageFolder
 from torch.utils.tensorboard import SummaryWriter
 from torchvision import transforms
+from torchvision import models
 
 
 # TODO: Adding a “Projector” to TensorBoard
@@ -50,6 +52,20 @@ def write_to_tensorboard():
 class EmotionDataset(Dataset):
     """Emotion dataset."""
     # TODO: Custom Emotion Dataset
+
+
+def get_net(classes):
+    """Returns a torchvision model.
+    
+    Args:
+         classes: num of classes
+
+    Returns:
+        net: model instance.
+    """
+    net = models.resnet18(pretrained=False)
+    net.fc = nn.Linear(net.fc.in_features, classes)
+    return net
 
 
 def load_checkpoint(model, path, optimizer=None):
