@@ -54,6 +54,10 @@ class EmotionDataset(Dataset):
     # TODO: Custom Emotion Dataset
 
 
+def get_device():
+    return torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+
+
 def get_net(classes):
     """Returns a torchvision model.
     
@@ -89,6 +93,30 @@ def load_checkpoint(model, path, optimizer=None):
     loss = checkpoint['loss']
 
     return model, optimizer, epoch, loss
+
+
+def predict(model, image_np):
+    """Returns prediction from image.
+
+    Args:
+        model: model instance.
+        image_np: numpy image.
+
+    Returns:
+        output_tensor: prediction from image_np.
+    """
+    device = get_device()
+
+    # Data preparation
+    data_transforms = get_data_transforms()
+    input_tensor = data_transforms(image_np)
+    input_tensor.unsqueeze_(dim=0)
+    input_tensor = input_tensor.to(device)
+
+    # Prediction
+    output_tensor = model(input_tensor)
+
+    return output_tensor
 
 
 def get_metadata(path):
@@ -134,6 +162,7 @@ def get_data_loader(path, batch_size=2, num_workers=2):
 
 def get_data_transforms():
     data_transforms = transforms.Compose([
+        transforms.ToPILImage(),
         transforms.RandomResizedCrop(224),
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
