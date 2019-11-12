@@ -15,6 +15,7 @@ import torch.optim as optim
 from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
+from utils import get_device
 from utils import get_data_loader
 from utils import get_metadata
 from utils import get_net
@@ -37,7 +38,7 @@ def main(net, checkpoint, feature_size, training_loader, evaluation_loader=None,
     Returns:
         net: model instance.
     """
-    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+    device = get_device()
     net.to(device)
 
     criterion = nn.CrossEntropyLoss()
@@ -46,7 +47,7 @@ def main(net, checkpoint, feature_size, training_loader, evaluation_loader=None,
     best_loss = 0.5
     initial_epoch = 0
     if os.path.exists(checkpoint):
-        checkpoint = torch.load(checkpoint)
+        checkpoint = torch.load(checkpoint, map_location=device)
         model.load_state_dict(checkpoint['model_state_dict'])
         optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
         initial_epoch = checkpoint['epoch'] + 1
