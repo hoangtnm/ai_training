@@ -121,7 +121,6 @@ if __name__ == '__main__':
 
     # torch.multiprocessing.freeze_support()
     dataset_path = os.path.join('data', 'cat_vs_dog', 'train')
-    # dataset_path = '/media/storage/research/datasets/cat_vs_dog/train'
     dataset_size, class_names, class_to_idx = get_metadata(dataset_path)
 
     # TensorBoard setup
@@ -136,5 +135,6 @@ if __name__ == '__main__':
 
     num_classes = len(class_names)
     model = get_net(classes=num_classes)
-    model = main(model, checkpoint_path, HyperParams['input_size'], train_loader, eval_loader, writer=writer)
+    model = main(model, checkpoint_path, HyperParams['input_size'], train_loader,
+                 eval_loader, writer=writer, epochs=HyperParams['epochs'])
     writer.close()
