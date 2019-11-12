@@ -1,13 +1,14 @@
+import os
 import sys
+
 import cv2
 import torch
 
-from utils import get_net
 from utils import get_device
 from utils import get_metadata
-from utils import preprocess_image
+from utils import get_net
 from utils import get_prediction_class
-
+from utils import preprocess_image
 
 if __name__ == '__main__':
     device = get_device()
@@ -19,8 +20,9 @@ if __name__ == '__main__':
 
     # Net initialization
     net = get_net(classes=num_classes)
-    # checkpoint_dict = torch.load(os.path.join('checkpoint', 'checkpoint.pth'))
-    # net.load_state_dict(checkpoint_dict['model_state_dict'])
+    checkpoint_dict = torch.load(os.path.join('checkpoint', 'checkpoint.pth'),
+                                 map_location=device)
+    net.load_state_dict(checkpoint_dict['model_state_dict'])
     net.eval()
     net.to(device)
 
