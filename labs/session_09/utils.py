@@ -95,28 +95,36 @@ def load_checkpoint(model, path, optimizer=None):
     return model, optimizer, epoch, loss
 
 
-def predict(model, image_np):
+def preprocess_image(image_np, mode='train'):
     """Returns prediction from image.
 
     Args:
-        model: model instance.
         image_np: numpy image.
+        mode: train or val.
 
     Returns:
-        output_tensor: prediction from image_np.
+        input_tensor: processed image.
     """
-    device = get_device()
-
-    # Data preparation
-    data_transforms = get_data_transforms()
+    data_transforms = get_data_transforms()[mode]
     input_tensor = data_transforms(image_np)
     input_tensor.unsqueeze_(dim=0)
-    input_tensor = input_tensor.to(device)
+    return input_tensor
 
-    # Prediction
-    output_tensor = model(input_tensor)
 
-    return output_tensor
+def get_prediction_class(prediction, idx_to_class):
+    """Returns class of prediction.
+
+    Args:
+        prediction(Tensor): a vector of probabilities.
+        idx_to_class(dict): a dict maps keys to the corresponding names. For example:
+        {0: 'cat', 1:'dog'}
+
+    Returns:
+        target_name: class of the prediction.
+    """
+    target_idx = torch.argmax(prediction).item()
+    target_name = idx_to_class[target_idx]
+    return target_name
 
 
 def get_metadata(path):
@@ -142,18 +150,19 @@ def get_metadata(path):
     return dataset_size, class_names, class_to_idx
 
 
-def get_data_loader(path, batch_size=2, num_workers=2):
+def get_data_loader(path, batch_size=2, mode='train', num_workers=2):
     """Returns data_loader.
 
     Args:
         path: path to dataset folder.
         batch_size: number of samples per gradient update.
+        mode: train or val.
         num_workers: how many sub-processes to use for data loading.
     
     Returns:
         data_loader
     """
-    data_transform = get_data_transforms()
+    data_transform = get_data_transforms()[mode]
     train_set = ImageFolder(root=path, transform=data_transform)
     data_loader = DataLoader(
         train_set, batch_size=batch_size, shuffle=True, num_workers=num_workers)
@@ -161,14 +170,23 @@ def get_data_loader(path, batch_size=2, num_workers=2):
 
 
 def get_data_transforms():
-    data_transforms = transforms.Compose([
-        transforms.ToPILImage(),
-        transforms.RandomResizedCrop(224),
-        transforms.RandomHorizontalFlip(),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                             std=[0.229, 0.224, 0.225])
-    ])
+    data_transforms = {
+        'train': transforms.Compose([
+            transforms.RandomResizedCrop(224),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                 std=[0.229, 0.224, 0.225])
+        ]),
+        'val': transforms.Compose([
+            transforms.ToPILImage(),
+            transforms.Resize(256),
+            transforms.CenterCrop(224),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                 std=[0.229, 0.224, 0.225])
+        ])
+    }
     return data_transforms
 
 

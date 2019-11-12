@@ -1,15 +1,18 @@
+import os
 import sys
-import torch
-import torch.nn as nn
-from PIL import Image
-from torchvision import models
 
+import torch
+from PIL import Image
+
+from utils import get_net
+from utils import get_device
 from utils import get_metadata
-from utils import get_data_transforms
+from utils import preprocess_image
+from utils import get_prediction_class
 
 
 if __name__ == '__main__':
-    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+    device = get_device()
 
     # Training dataset metadata
     _, class_names, class_to_idx = get_metadata(sys.argv[1])
@@ -17,17 +20,18 @@ if __name__ == '__main__':
     idx_to_class = {value: key for key, value in class_to_idx.items()}
 
     # Data preparation
-    data_transforms = get_data_transforms()
     image = Image.open(sys.argv[2])
-    image = data_transforms(image)
-    image.unsqueeze_(dim=0)
-    image = image.to(device)
+
+    # Net initialization
+    net = get_net(classes=num_classes)
+    checkpoint_dict = torch.load(os.path.join('checkpoint', 'checkpoint.pth'))
+    net.load_state_dict(checkpoint_dict['model_state_dict'])
+    net.eval()
+    net.to(device)
 
     # Prediction
-    model = models.resnet18()
-    model.fc = nn.Linear(512, num_classes)
-    model.to(device)
-    output = model(image)
-    target_idx = torch.argmax(output).item()
-    target_name = idx_to_class[target_idx]
-    print(f'Result: {target_name}')
+    image_tensor = preprocess_image(image, mode='val')
+    image_tensor = image_tensor.to(device)
+    prediction = net(image_tensor)
+    result = get_prediction_class(prediction, idx_to_class)
+    print(f'Result: {result}')

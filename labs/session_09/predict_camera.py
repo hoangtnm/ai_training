@@ -1,13 +1,12 @@
-import os
 import sys
 import cv2
 import torch
-import numpy as np
 
 from utils import get_net
 from utils import get_device
 from utils import get_metadata
-from utils import predict
+from utils import preprocess_image
+from utils import get_prediction_class
 
 
 if __name__ == '__main__':
@@ -29,13 +28,14 @@ if __name__ == '__main__':
 
     while True:
         _, frame = cap.read()
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         # Prediction
-        output = predict(net, frame)
-        target_idx = torch.argmax(output).item()
-        target_name = idx_to_class[target_idx]
-        print(f'Result: {target_name}')
+        frame_tensor = preprocess_image(frame_rgb, mode='val')
+        frame_tensor = frame_tensor.to(device)
+        prediction = net(frame_tensor)
+        result = get_prediction_class(prediction, idx_to_class)
+        print(f'Result: {result}')
 
         # Display the resulting frame
         cv2.imshow('frame', frame)
