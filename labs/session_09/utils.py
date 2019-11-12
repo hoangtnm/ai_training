@@ -1,11 +1,13 @@
 import torch
 import numpy as np
+import torch.nn as nn
 import matplotlib.pyplot as plt
 from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
 from torchvision.datasets import ImageFolder
 from torch.utils.tensorboard import SummaryWriter
 from torchvision import transforms
+from torchvision import models
 
 
 # TODO: Adding a “Projector” to TensorBoard
@@ -21,12 +23,12 @@ def write_embedding_to_tensorboard(data, targets, feature_size, class_names, wri
     """Writes embedding to TensorBoard.
 
     Args:
-        data: data points
-        targets: corresponding labels
-        feature_size:
-        class_names (list): list of classes
-        writer: TensorBoard writer
-        global_step (int): global step value to record
+        data: data points.
+        targets: corresponding labels.
+        feature_size: a matrix which each row is the feature vector of the data point.
+        class_names (list): list of classes.
+        writer: TensorBoard writer.
+        global_step (int): global step value to record.
     """
     # select random images and their target indices
     images, labels = select_n_random(data, targets)
@@ -50,6 +52,71 @@ def write_to_tensorboard():
 class EmotionDataset(Dataset):
     """Emotion dataset."""
     # TODO: Custom Emotion Dataset
+
+
+def get_device():
+    return torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+
+
+def get_net(classes):
+    """Returns a torchvision model.
+    
+    Args:
+         classes: num of classes
+
+    Returns:
+        net: model instance.
+    """
+    net = models.resnet18(pretrained=False)
+    net.fc = nn.Linear(net.fc.in_features, classes)
+    return net
+
+
+def load_checkpoint(model, path, optimizer=None):
+    """Load checkpoint from path.
+
+    Args:
+        model: model instance.
+        path: path to the checkpoint.
+        optimizer: optimizer instance (only needed during training).
+
+    Returns:
+        model: model instance loading checkpoint.
+        optimizer: optimizer instance loading checkpoint.
+        epoch: epoch at which to start training (useful for resuming a previous training run).
+        loss: best loss.
+    """
+    checkpoint = torch.load(path)
+    model.load_state_dict(checkpoint['model_state_dict'])
+    optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+    epoch = checkpoint['epoch']
+    loss = checkpoint['loss']
+
+    return model, optimizer, epoch, loss
+
+
+def predict(model, image_np):
+    """Returns prediction from image.
+
+    Args:
+        model: model instance.
+        image_np: numpy image.
+
+    Returns:
+        output_tensor: prediction from image_np.
+    """
+    device = get_device()
+
+    # Data preparation
+    data_transforms = get_data_transforms()
+    input_tensor = data_transforms(image_np)
+    input_tensor.unsqueeze_(dim=0)
+    input_tensor = input_tensor.to(device)
+
+    # Prediction
+    output_tensor = model(input_tensor)
+
+    return output_tensor
 
 
 def get_metadata(path):
@@ -80,7 +147,7 @@ def get_data_loader(path, batch_size=2, num_workers=2):
 
     Args:
         path: path to dataset folder.
-        batch_size: batch_size.
+        batch_size: number of samples per gradient update.
         num_workers: how many sub-processes to use for data loading.
     
     Returns:
@@ -95,6 +162,7 @@ def get_data_loader(path, batch_size=2, num_workers=2):
 
 def get_data_transforms():
     data_transforms = transforms.Compose([
+        transforms.ToPILImage(),
         transforms.RandomResizedCrop(224),
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
