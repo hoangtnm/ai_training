@@ -162,7 +162,7 @@ def get_data_loader(path, batch_size=2, num_workers=2):
 
 def get_data_transforms():
     data_transforms = transforms.Compose([
-        transforms.ToPILImage(),
+        # transforms.ToPILImage(),
         transforms.RandomResizedCrop(224),
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
