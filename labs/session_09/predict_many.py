@@ -18,7 +18,7 @@ def predict_all(files, idx_to_class, model_path):
     model.load_state_dict(checkpoint['model_state_dict'])
     model.to(device)
 
-    data_transforms = get_data_transforms()
+    data_transforms = get_data_transforms()['val']
 
     tmp = []
 
