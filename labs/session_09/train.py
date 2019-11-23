@@ -48,7 +48,7 @@ def main(net, checkpoint, feature_size, training_loader, evaluation_loader=None,
     initial_epoch = 0
     if os.path.exists(checkpoint):
         checkpoint = torch.load(checkpoint, map_location=device)
-        model.load_state_dict(checkpoint['model_state_dict'])
+        net.load_state_dict(checkpoint['model_state_dict'])
         optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
         initial_epoch = checkpoint['epoch'] + 1
 
@@ -104,6 +104,8 @@ def main(net, checkpoint, feature_size, training_loader, evaluation_loader=None,
                 'optimizer_state_dict': optimizer.state_dict(),
             }, checkpoint)
 
+    # load best model weights
+    net.load_state_dict(best_net_wts)
     return net
 
 
